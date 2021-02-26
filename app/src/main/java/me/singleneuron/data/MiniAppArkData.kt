@@ -20,17 +20,40 @@
  * <https://github.com/ferredoxin/QNotified/blob/master/LICENSE.md>.
  */
 
-package cn.lliiooll.msg;
+package me.singleneuron.data
 
-import me.singleneuron.qn_kernel.data.MsgRecordData;
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import java.lang.reflect.Type
 
-public interface MessageReceiver {
+class MiniAppArkData {
 
-    /**
-     * 当拦截到消息时会调用此方法
-     *
-     * @param data 拦截到的数据
-     * @return 如果返回为真将不会向下传递拦截到的消息
-     */
-    boolean onReceive(MsgRecordData data);
+    lateinit var desc: String
+    lateinit var prompt: String
+    lateinit var meta: Map<String,MiniAppArkDetailData>
+    lateinit var config: ArkMsgConfigData
+    lateinit var extra: String
+
+    companion object {
+        @JvmStatic
+        fun fromJson(json: String): MiniAppArkData {
+            val type: Type = object : TypeToken<MiniAppArkData>(){}.type
+            return Gson().fromJson(json, type)
+        }
+    }
+
+    override fun toString(): String {
+        return Gson().toJson(this)
+    }
+}
+
+class MiniAppArkDetailData {
+    lateinit var desc: String
+    lateinit var preview: String
+    lateinit var qqdocurl: String
+    lateinit var title: String
+}
+
+class ArkMsgConfigData {
+    var ctime: Long = System.currentTimeMillis()/1000
 }

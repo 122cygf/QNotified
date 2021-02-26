@@ -57,8 +57,7 @@ import me.kyuubiran.hook.AutoMosaicName;
 import me.kyuubiran.hook.ShowSelfMsgByLeft;
 import me.singleneuron.activity.ChangeDrawerWidthActivity;
 import me.singleneuron.hook.*;
-import me.singleneuron.hook.decorator.DisableQzoneSlideCamera;
-import me.singleneuron.hook.decorator.SimpleReceiptMessage;
+import me.singleneuron.hook.decorator.*;
 import me.singleneuron.qn_kernel.data.HostInformationProviderKt;
 import me.singleneuron.util.KotlinUtilsKt;
 import nil.nadph.qnotified.MainHook;
@@ -172,9 +171,8 @@ public class SettingsActivity extends IphoneTitleBarActivityCompat implements Ru
             ll.addView(newListItemHookSwitchInit(this, "禁用夜间模式遮罩", "移除夜间模式下聊天界面的深色遮罩", DarkOverlayHook.get()));
         }
         ll.addView(newListItemButton(this, "辅助功能", null, null, clickToProxyActAction(AuxFuncActivity.class)));
-        ll.addView(newListItemHookSwitchInit(this, "防撤回", "自带撤回灰字提示", RevokeMsgHook.get()));
         ll.addView(newListItemHookSwitchInit(this, "显示设置禁言的管理", "即使你只是普通群成员", GagInfoDisclosure.get()));
-        addViewConditionally(ll, this, "小程序分享转链接", "感谢Alcatraz323开发远离小程序,感谢神经元移植到Xposed", NoApplet.INSTANCE);
+        addViewConditionally(ll, this, "小程序分享转链接（发送）", "感谢Alcatraz323开发远离小程序,神经元移植到Xposed", NoApplet.INSTANCE);
         ll.addView(subtitle(this, "实验性功能(未必有效)"));
         ll.addView(_t = newListItemButton(this, "下载重定向", "N/A", "N/A", this::onFileRecvRedirectClick));
         _t.setId(R_ID_BTN_FILE_RECV);
@@ -205,6 +203,7 @@ public class SettingsActivity extends IphoneTitleBarActivityCompat implements Ru
         ll.addView(newListItemButtonIfValid(this, "精简联系人页面", null, null, SimplifyContactTabs.INSTANCE));
         ll.addView(newListItemButtonIfValid(this, "精简主页对话框", null, null,SimplifyRecentDialog.INSTANCE));
         ll.addView(newListItemConfigSwitchIfValid(this, "精简表情菜单", null, SimplifyEmoPanel.INSTANCE));
+        ll.addView(newListItemConfigSwitchIfValid(this, "隐藏文本框上方快捷方式", null, RemoveShortCutBar.INSTANCE));
         ll.addView(newListItemHookSwitchInit(this, "聊天自动发送原图", null, AutoSendOriginalPhoto.INSTANCE));
         ll.addView(newListItemConfigSwitchIfValid(this, "聊天自动接收原图", null, AutoReceiveOriginalPhoto.INSTANCE));
         ll.addView(newListItemHookSwitchInit(this, "批量撤回消息", "多选消息后撤回", MultiActionHook.INSTANCE));
@@ -215,6 +214,10 @@ public class SettingsActivity extends IphoneTitleBarActivityCompat implements Ru
         ll.addView(newListItemConfigSwitchIfValid(this, "隐藏QQ钱包超值精选", null, QWalletNoAD.INSTANCE));
         ll.addView(newListItemButton(this, "自定义钱包余额", "仅供娱乐", null, FakeBalance.INSTANCE.listener()));
         ll.addView(newListItemConfigSwitchIfValid(this, "消息显示发送者QQ号和时间", null, ChatItemShowQQUin.INSTANCE));
+        ll.addView(newListItemButton(this,"万象屏蔽卡片消息","使用强大的正则表达式自由屏蔽卡片消息",null, RegexAntiMeg.INSTANCE));
+        addViewConditionally(ll,this,"特别关心通知单独分组","将特别关心发送的消息通知移动到单独的通知渠道",SpecialCareNewChannel.INSTANCE);
+        ll.addView(newListItemHookSwitchInit(this, "卡片消息文本化",null, CardMsgToText.INSTANCE));
+        ll.addView(newListItemHookSwitchInit(this,"小程序转链接分享（接收）",null, MiniAppToStruckMsg.INSTANCE));
         ll.addView(subtitle(this, "好友列表"));
         ll.addView(newListItemButton(this, "打开资料卡", "打开指定用户的资料卡", null, new View.OnClickListener() {
             @Override

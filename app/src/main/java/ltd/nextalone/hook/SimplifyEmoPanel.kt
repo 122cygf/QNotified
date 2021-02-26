@@ -48,7 +48,7 @@ object SimplifyEmoPanel : CommonDelayableHook("na_simplify_emo_panel_kt") {
                     val item = list.next()
                     if (item != null) {
                         val i = item.javaClass.getDeclaredField("type").get(item) as Int
-                        if (i !in arrayListOf(4, 7)) {
+                        if (i in arrayListOf(8, 9, 10, 11)) {
                             list.remove()
                         }
                     }

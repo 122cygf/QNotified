@@ -48,7 +48,7 @@ object SimplifyEmoPanel : CommonDelayableHook("na_simplify_emo_panel_kt") {
                     val item = list.next()
                     if (item != null) {
                         val i = item.javaClass.getDeclaredField("type").get(item) as Int
-                        if (i in arrayListOf(8, 9, 10, 11)) {
+                        if (i in arrayListOf(5, 6, 8, 9)) {
                             list.remove()
                         }
                     }
@@ -56,7 +56,7 @@ object SimplifyEmoPanel : CommonDelayableHook("na_simplify_emo_panel_kt") {
                 "Lcom/tencent/mobileqq/emoticonview/EmoticonTabAdapter;->getView(ILandroid/view/View;Landroid/view/ViewGroup;)Landroid/view/View;".method.hookAfter(this@SimplifyEmoPanel) { it2 ->
                     val view: View = it2.result as View
                     val layoutParams: ViewGroup.LayoutParams = view.layoutParams
-                    layoutParams.width = hostInfo.application.resources.displayMetrics.widthPixels / 2
+                    layoutParams.width = hostInfo.application.resources.displayMetrics.widthPixels / 8
                     view.layoutParams = layoutParams
                     it2.result = view
                 }
